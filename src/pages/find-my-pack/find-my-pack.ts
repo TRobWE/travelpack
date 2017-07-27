@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Chat } from "../chat/chat";
 import { Geolocation } from '@ionic-native/geolocation';
+import { LocationTracker } from '../../providers/location-tracker/location-tracker';
 
 declare var google;
 
@@ -14,7 +15,7 @@ export class FindMyPack {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public locationTracker: LocationTracker) {}
 
   ionViewDidLoad() {
     this.loadMap();
@@ -71,5 +72,13 @@ export class FindMyPack {
       infoWindow.open(this.map, marker);
     });
  
+  }
+
+   start(){
+    this.locationTracker.startTracking();
+  }
+ 
+  stop(){
+    this.locationTracker.stopTracking();
   }
 }

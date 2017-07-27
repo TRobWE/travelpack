@@ -27,7 +27,9 @@ import { YelpService } from "../services/yelp.service";
 import { BudgetService } from "../services/budget.service";
 import { Signup } from "../pages/signup/signup";
 import { Geolocation } from '@ionic-native/geolocation';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { JwtHelper } from 'angular2-jwt';
+import { LocationTracker } from '../providers/location-tracker/location-tracker';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import { JwtHelper } from 'angular2-jwt';
     Camera,
     FilePath,
     Geolocation,
+    BackgroundGeolocation,
     JwtHelper,
+    LocationTracker,
   ],
 })
 export class AppModule {}
