@@ -8,7 +8,15 @@
     "rules": {
         "ter-indent": [true, 2],
         "quotemark": [false],
-        "ordered-imports":[false]
+        "ordered-imports":[false],
+        "forin": false,
+        "object-literal-sort-keys": false,
+        "prefer-const": false,
+        "no-console": [
+            true,
+            "log"
+        ],
+        "arrow-parens": false
     },
     "rulesDirectory": []
 }

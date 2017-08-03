@@ -18,18 +18,12 @@ declare var google;
 export class FindMyPack {
 
   @ViewChild('map') mapElement: ElementRef;
-  // public SERVER_DEPLOY = 'http://ec2-18-220-15-216.us-east-2.compute.amazonaws.com:3030';
-  // public socketHost: string = this.SERVER_DEPLOY;
   public socket: any;
   public userId;
+  public avatar;
   public map: any;
   public gMap: GoogleMap;
   public usersLocations = {};
-  // {
-  //   Rose: {lat: 30, lng: -90},
-  //   TRob: {lat: 30.5, lng: -90.5},
-  //   Ali: {lat: 29.8, lng: -90},
-  // };
 
   constructor(public platform: Platform,
               public navCtrl: NavController,
@@ -54,19 +48,19 @@ export class FindMyPack {
     console.log('ionViewDidLoad FindMyPackPagePage');
   }
   public ionViewDidEnter() {
-    this.contactSvs.getContacts(this.grabContactLoc.bind(this))
-    
+    this.contactSvs.getContacts(this.grabContactLoc.bind(this));
   }
 
   public grabContactLoc(users) {
-    users.forEach(({lat, long, id, username}, i, arr) => {
-      if (lat){
-        this.usersLocations[username] = {lat: +lat, lng: +long, userId: id};
+    console.log(users, 'users');
+    users.forEach(({lat, long, id, username, avatar}, i, arr) => {
+      if (lat) {
+        this.usersLocations[username] = {lat: +lat, lng: +long, userId: id, avatar};
       }
     });
-    console.log(this.usersLocations, "all users")
+    console.log(this.usersLocations, "all users");
     if (this.platform.is('core')) {
-      console.log('desktop hit')
+      console.log('desktop hit');
       this.loadBrowserMap();
     } else {
       this.loadMap();
@@ -79,8 +73,9 @@ export class FindMyPack {
 
   public loadBrowserMap() {
     this.geolocation.getCurrentPosition().then((position) => {
+      this.storage.get('avatar').then(av => this.avatar = av);
       this.storage.get('username').then((val) => {
-        this.usersLocations[val] = {lat: position.coords.latitude, lng: position.coords.longitude, userId: this.userId};
+        this.usersLocations[val] = {lat: position.coords.latitude, lng: position.coords.longitude, userId: this.userId, avatar: this.avatar};
         this.locSend({[val]: this.usersLocations[val]});
         let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         let mapOptions = {
@@ -99,19 +94,19 @@ export class FindMyPack {
 
   public addMarker(locals) {
     for (let key in locals) {
-      console.log()
       let marker = new google.maps.Marker({
         map: this.map,
         animation: google.maps.Animation.DROP,
         position: {lat: locals[key].lat, lng: locals[key].lng},
-        // position: this.map.getCenter(),
+        icon: {
+          url: `${locals[key].avatar}`,
+          scaledSize : new google.maps.Size(30, 30),
+          anchor: new google.maps.Point(0, 30),
+        },
       });
-
-      console.log(this.map);
       let content = `<h4>${key}</h4>`;
-
       this.addInfoWindow(marker, content);
-    };
+    }
   }
 
   public addInfoWindow(marker, content) {
@@ -133,25 +128,25 @@ export class FindMyPack {
         this.locSend({[val]: this.usersLocations[val]});
 
         this.gMap = new GoogleMap('map', {
-          'backgroundColor': 'transparent',
-          'controls': {
-            'compass': true,
-            'myLocationButton': true,
-            'indoorPicker': true,
-            'zoom': true
+          backgroundColor: 'transparent',
+          controls: {
+            compass: true,
+            myLocationButton: true,
+            indoorPicker: true,
+            zoom: true,
           },
-          'gestures': {
-            'scroll': true,
-            'tilt': true,
-            'rotate': true,
-            'zoom': true
+          gestures: {
+            scroll: true,
+            tilt: true,
+            rotate: true,
+            zoom: true,
           },
-          'camera': {
-            'latLng': location,
-            'tilt': 30,
-            'zoom': 15,
-            'bearing': 50
-          }
+          camera: {
+            latLng: location,
+            tilt: 30,
+            zoom: 15,
+            bearing: 50,
+          },
         });
 
         this.gMap.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
@@ -173,13 +168,18 @@ export class FindMyPack {
       let markerOptions: GoogleMapsMarkerOptions = {
         position: location,
         title: `${key}`,
+        icon: {
+          url: `${loc[key].avatar}`,
+          scaledSize : new google.maps.Size(30, 30),
+          anchor: new google.maps.Point(0, 30),
+        },
       };
 
       this.gMap.addMarker(markerOptions)
         .then((marker: GoogleMapsMarker) => {
           marker.showInfoWindow();
         });
-    };
+    }
   }
 
   public locSend(val) {

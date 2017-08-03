@@ -15,6 +15,14 @@ export class PackingList {
   public ionViewDidLoad() {
     console.log('ionViewDidLoad PackingListPagePage');
   }
+
+  public ionViewDidEnter() {
+    this.plSvs.getList(this.listItems.bind(this));
+  }
+
+  public listItems(data) {
+    this.list = data;
+  }
   public addItem(item) {
     this.plSvs.addList(item);
     this.listItem = '';

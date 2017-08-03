@@ -4,7 +4,7 @@
     <ion-title text-center>Packing list</ion-title>
   </ion-navbar>
   <ion-input [(ngModel)]="listItem" placeholder="add item..."></ion-input>
-  <button (click)="plSvs.addItem(listItem)" ion-button full>Submit Item</button>
+  <button (click)="addItem(listItem)" ion-button full>Submit Item</button>
 
 </ion-header>
 
@@ -13,7 +13,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let obj of list">
       <ion-item>
-        {{obj.item}}
+        {{obj.agenda}}
       </ion-item>
       <ion-item-options>
         <ion-buttons>  

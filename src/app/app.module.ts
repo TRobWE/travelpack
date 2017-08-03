@@ -34,6 +34,7 @@ import { Profile } from "../pages/profile/profile";
 import { PackingList } from '../pages/packing-list/packing-list';
 import { Flights } from '../pages/flights/flights';
 import { PackingListService } from "../services/packingList.service";
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { PackingListService } from "../services/packingList.service";
     JwtHelper,
     Config,
     PhotoViewer,
+    InAppBrowser,
   ],
 })
 export class AppModule {}
