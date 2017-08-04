@@ -77,7 +77,7 @@ export class YelpService {
     prompt.present();
   }
 
-  public addYelpData(yelp){
+  public addYelpData(yelp) {
     let item = {
       name: this.yelp.name,
       img: this.yelp.image_url,
@@ -86,10 +86,10 @@ export class YelpService {
       packId: this.packID,
       like: 0,
       unlike: 0,
-    }
+    };
 
-    console.log(item, 'post to db')
-    this.http.post(`${this.SERVER_ROSE}/itineraries`, item)
+    console.log(item, 'post to db');
+    this.http.post(`${this.SERVER_DEPLOY}/itineraries`, item)
     .map((res) => res.json())
     .subscribe((data) => {
       console.log(data);
@@ -98,9 +98,9 @@ export class YelpService {
     });
   }
 
-  public fetchItinerary(cb){
+  public fetchItinerary(cb) {
     this.storage.get('packId').then(val => {
-      this.http.get(`${this.SERVER_ROSE}/itineraries?packId=${val}&$sort[id]=-1`)
+      this.http.get(`${this.SERVER_DEPLOY}/itineraries?packId=${val}&$sort[id]=-1`)
       .map(res => res.json())
       .subscribe(({ data }) => {
         console.log(data, 'itinerary data');
@@ -113,7 +113,7 @@ export class YelpService {
 
   public updatDates(id, date) {
     console.log(date, 'update hit');
-    this.http.patch(`${this.SERVER_ROSE}/itineraries/${id}`, date)
+    this.http.patch(`${this.SERVER_DEPLOY}/itineraries/${id}`, date)
     .map(res=> res.json())
     .subscribe((data) => {
       if(data){
@@ -129,30 +129,30 @@ export class YelpService {
     console.log(id, likes, 'in like')
     this.countLikes = { like: (likes += 1) };
     console.log(this.countLikes);
-    this.http.patch(`${this.SERVER_ROSE}/itineraries/${id}`, this.countLikes)
+    this.http.patch(`${this.SERVER_DEPLOY}/itineraries/${id}`, this.countLikes)
     .map(res => res.json())
     .subscribe((data) => {
-      if(data){
-        this.events.publish("update:like")
+      if (data) {
+        this.events.publish("update:like");
       }
       console.log('likes submitted');
     }, (err) => {
       console.error(err);
-    })
+    });
   }
 
-  public unlike(id, unlikes){
-    console.log(unlikes, 'unliking')
+  public unlike(id, unlikes) {
+    console.log(unlikes, 'unliking');
     this.countUnlikes = { unlike: (unlikes += 1) };
     console.log(this.countUnlikes);
-    this.http.patch(`${this.SERVER_ROSE}/itineraries/${id}`, this.countUnlikes)
+    this.http.patch(`${this.SERVER_DEPLOY}/itineraries/${id}`, this.countUnlikes)
     .map(res => res.json())
     .subscribe((data) => {
-      if(data){
-        this.events.publish("update:like")
+      if (data) {
+        this.events.publish("update:like");
       }
     }, (err) => {
       console.error(err);
-    })
-  }  
+    });
+  }
 }

@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 export class PackingListService {
   public SERVER_DEPLOY = 'http://ec2-18-220-15-216.us-east-2.compute.amazonaws.com:3030';
   public SERVER_JAVA = 'http://ec2-18-220-15-216.us-east-2.compute.amazonaws.com:3030';
-  public SERVER_ROSE = 'http://localhost:3030';
+  public SERVER_ROSE = 'http://192.168.1.113:8080';
   public userId: string;
   public packID: number;
   public username: string;
@@ -20,7 +20,7 @@ export class PackingListService {
   public getList(cb) {
     console.log("it hit agendas");
     this.storage.get('userId').then(val => {
-      this.http.get(`/useragendas/${val}`)
+      this.http.get(`${this.SERVER_ROSE}/useragendas/${val}`)
       .map(res => res.json())
       .subscribe((data) => {
         console.log(data, 'data');
@@ -35,7 +35,7 @@ export class PackingListService {
     this.storage.get('username').then((name) => {
       this.storage.get('userId').then((id) => {
         let myList = { userId: id, agenda, name };
-        this.http.post(`/agendas`, myList)
+        this.http.post(`${this.SERVER_ROSE}/agendas`, myList)
         .map((res) => res.json())
         .subscribe((data) => {
           console.log(data, 'post budget data');
@@ -51,7 +51,7 @@ export class PackingListService {
 
   public removeItem(id) {
     this.http.delete(`${this.SERVER_ROSE}/agendas/${id}`)
-      .map((res) => res.json())
+      // .map((res) => res.json())
       .subscribe((data) => {
         console.log(data, 'delete budget data');
         if (data) {

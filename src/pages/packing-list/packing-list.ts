@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { PackingListService } from "../../services/packingList.service";
 
 @Component({
@@ -10,7 +10,9 @@ export class PackingList {
   public list: any;
   public listItem: string = '';
 
-  constructor(private plSvs: PackingListService, public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public events: Events, private plSvs: PackingListService, public navCtrl: NavController, public navParams: NavParams) {
+    this.events.subscribe('reload:List', () => this.plSvs.getList(this.listItems.bind(this)));
+  }
 
   public ionViewDidLoad() {
     console.log('ionViewDidLoad PackingListPagePage');
@@ -29,6 +31,6 @@ export class PackingList {
   }
 
   public removeItem(item): void {
-    this.plSvs.removeItem(item.id);
+    this.plSvs.removeItem(item);
   }
 }

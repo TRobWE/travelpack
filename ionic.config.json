@@ -4,16 +4,16 @@
   "type": "ionic-angular",
   "proxies": [
     {
-      "path": "/users",
-      "proxyUrl": "http://ec2-18-220-15-216.us-east-2.compute.amazonaws.com:3030/users"
-    },
-    {
-      "path": "/useragendas/1",
-      "proxyUrl": "http://localhost:3030/useragendas/1"
+      "path": "/useragendas/2",
+      "proxyUrl": "http://192.168.1.113:8080/useragendas/2"
     },
     {
       "path": "/agendas",
-      "proxyUrl": "http://localhost:3030/agendas/"
+      "proxyUrl": "http://192.168.1.113:8080/agendas"
+    },
+    {
+      "path": "/agendas/2",
+      "proxyUrl": "http://192.168.1.113:8080/agendas/2"
     }
   ]
 }
