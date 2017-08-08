@@ -6,11 +6,7 @@ import { ContactsService } from "../../services/contacts.service";
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import * as io from "socket.io-client";
-<<<<<<< HEAD
 import { GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarkerOptions, GoogleMapsMarker, GoogleMapsMarkerIcon } from 'ionic-native';
-=======
-import { GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, GoogleMapsMarkerOptions, GoogleMapsMarker, GoogleMapsMarkerIcon} from 'ionic-native';
->>>>>>> d9635d1075ae899db31d9c0d798b55c5ee21417c
 
 declare var google;
 

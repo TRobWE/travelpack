@@ -11,8 +11,8 @@ export class PackForm {
   public packID: number;
   public packName: any = { 
     name: "",
-    // url: "https://i.imgur.com/0rxFgqa.jpg",
-    url: "./../assets/img/0rxFgqa.jpg",
+    url: "https://i.imgur.com/0rxFgqa.jpg",
+    // url: "./../assets/img/0rxFgqa.jpg",
     userId: this.storage.get('userId'),
   };
 
